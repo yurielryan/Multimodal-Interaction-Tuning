@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Virtual envs
+.venv/
+venv/
+env/
+ENV/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Claude Code workspace
+.claude/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Logs and run outputs
+logs/
+Estimator/runs/
+SFT/runs/
+Experiments/outputs/
+
+# Hugging Face / Torch caches (in case anyone runs from this dir)
+.cache/
+huggingface/
+
+# Data — downloaded by Features/download_images.py, not shipped
+data/
+
+# Regenerated feature artifacts
+# (per_tau/ is created on demand by Experiments/tau_ablations.py)
+Features/per_tau/
+# (id-aligned features are written by SFT/preprocess_mi_gate.py)
+Features/hateful_memes_features_id_aligned.pt
+# (extras the proportion / tau experiments may write back)
+Features/features_all_augmented_*.pt.tmp
+
+# Temp / partial writes
+*.tmp
+*.bak
+*~

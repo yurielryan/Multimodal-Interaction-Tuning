@@ -1,0 +1,60 @@
+# SFT config for multimodal_interaction_tuning.py.
+# Override on the CLI with key=value pairs after --config.
+# Relative paths are resolved against the repo root, not your current dir.
+
+# ---- Data ----
+data_path: data/data.json
+image_dir: data/images
+text_field: mi_gate_text          # 'original_text' for ablation runs
+
+# ---- Model ----
+model_id: HuggingFaceTB/SmolVLM2-2.2B-Instruct
+
+# ---- MI Gate (informational; gate is applied in preprocess_mi_gate.py) ----
+# tau is the fraction of valid (U1-dominant) train samples that receive a caption.
+tau: 0.25
+
+# ---- LoRA (PEFT) ----
+# Defaults match the configs from the paper's reference script.
+use_lora: true
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_bias: none
+lora_target_modules:               # Llama-style projection names; matches SmolLM2 backbone
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+lora_task_type: CAUSAL_LM
+
+# ---- Training ----
+output_dir: SFT/runs/mi_gate_tau0.25
+epochs: 3
+train_batch_size: 1
+eval_batch_size: 4
+grad_accum_steps: 8                # effective batch = 8
+learning_rate: 1.0e-5
+weight_decay: 0.01
+warmup_ratio: 0.03
+lr_scheduler_type: cosine
+logging_steps: 10
+eval_steps: null                   # null → eval per epoch
+save_steps: null                   # null → save per epoch
+save_total_limit: 2
+bf16: true
+gradient_checkpointing: true
+dataloader_num_workers: 4
+seed: 42
+
+# ---- Eval ----
+eval_after_training: true
+eval_max_new_tokens: 6
+
+# ---- Misc ----
+max_train_samples: null           # set to int for quick smoke runs
+max_eval_samples: null
+report_to: none                   # 'wandb' or 'tensorboard' to enable

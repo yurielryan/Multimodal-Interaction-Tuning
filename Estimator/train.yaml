@@ -1,0 +1,44 @@
+# General setup
+random_seed: 42
+result_path: "./Estimator/runs/${now:%Y-%m-%d}/${now:%H-%M-%S}" # assume MI_estimator ran on repo root.
+device: "cuda"  # "cuda" or "cpu"
+
+# Data loading parameters (for get_loader via estimator.py)
+batch_size: 64
+num_workers: 8 
+data_path: "./Features/hateful_memes_features_siglip2_pca512.pt"  # Edit this to point to your dataset features (.pt file)
+
+# Model architecture
+input_size_1: 10
+input_size_2: 10
+embed_size: 512 
+n_classes: 2
+
+# Training epochs for sub-models
+num_epochs_discriminator: 30
+num_epochs_entropy_estimator: 80
+
+# Checkpoint saving for trained MI estimators
+estimator_save_dir: "Estimator/saved_estimators"
+estimator_save_tag: "latest"
+save_full_models: true
+
+# Validation-aware training controls
+# Use early stopping based on validation loss
+early_stopping: true
+# Number of epochs with no val improvement before stopping
+es_patience: 10
+# Minimum improvement in val loss to count as improvement
+es_min_delta: 1e-4
+
+# Optional: reduce LR on plateau (not wired by default)
+# use_lr_scheduler: false
+# lr_reduce_factor: 0.5
+# lr_reduce_patience: 3
+
+hydra:
+  run: 
+    dir: ${result_path}
+  sweep: 
+    dir: ${result_path}
+    subdir: ${hydra.job.num}

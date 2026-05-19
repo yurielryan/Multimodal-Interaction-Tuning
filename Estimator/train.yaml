@@ -9,9 +9,12 @@ num_workers: 8
 data_path: "./Features/hateful_memes_features_siglip2_pca512.pt"  # Edit this to point to your dataset features (.pt file)
 
 # Model architecture
-input_size_1: 10
-input_size_2: 10
-embed_size: 512 
+# input_size_1 / input_size_2 are auto-overridden at runtime by
+# infer_input_dims_from_pt(data_path, cfg) — set to match the default
+# pca512 features file shipped under Features/.
+input_size_1: 512
+input_size_2: 512
+embed_size: 512
 n_classes: 2
 
 # Training epochs for sub-models

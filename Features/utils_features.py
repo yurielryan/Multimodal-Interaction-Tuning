@@ -39,7 +39,7 @@ def _unwrap_features(out):
     raise TypeError(f"Unexpected SigLIP output type: {type(out).__name__}")
 
 
-def build_siglip2(model_id: str = "google/siglip2-base-patch16-224", device: str = "cuda"):
+def build_siglip2(model_id: str = "google/siglip2-giant-opt-patch16-384", device: str = "cuda"):
     """Load a SigLIP2 model plus tokenizer and image processor for the requested device."""
     use_cuda = device.startswith("cuda") and torch.cuda.is_available()
     dtype = torch.float16 if use_cuda else torch.float32

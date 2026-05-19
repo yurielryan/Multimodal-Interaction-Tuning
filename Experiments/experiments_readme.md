@@ -301,7 +301,7 @@ be small / noisy.
 - Stdout: a `Model | R | U_V | U_T | S` table per embedding size, with
   one block per split (Training / Validation / Test). Each non-baseline
   cell is annotated as `value (+xx%)` relative to the Baseline at the
-  same size, mirroring the table in the Overleaf draft.
+  same size, mirroring the interaction-transfer table in the paper.
 - `outputs/interaction_transfer.json`: a nested dict
   `{size: {variant: {split: {R, U1, U2, S}}}}` written **after every
   feature file** (atomic tmp + rename) so a partial sweep still leaves

@@ -20,7 +20,7 @@ Each file's name encodes its modality variant and PCA dimension:
 
 For every PCA size the table reports each variant's absolute R / U1 / U2 / S
 and the relative change vs. the Baseline at that same size, mirroring the
-"interaction transfer" comparison in the Overleaf draft.
+"interaction transfer" comparison in the paper.
 
 Run from repo root:
 
@@ -211,7 +211,7 @@ def train_and_eval(
 # Summary table
 # ---------------------------------------------------------------------------
 def _fmt_pct(value: float, baseline: float) -> str:
-    """Return the %-change suffix used in the Overleaf table."""
+    """Return the %-change suffix used in the paper's interaction-transfer table."""
     if baseline is None:
         return ""
     if abs(baseline) < 1e-9:

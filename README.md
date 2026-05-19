@@ -2,7 +2,7 @@
 
 This repository accompanies the ICML 2026 paper: 
 
-[Self-Captioning Multimodal Interaction Tuning: Amplifying Exploitable Redundancies for Robust Vision Language Models]()
+[Self-Captioning Multimodal Interaction Tuning: Amplifying Exploitable Redundancies for Robust Vision Language Models](https://arxiv.org/abs/2605.08145)
 
 It trains a partial-information-decomposition (PID) estimator over a multimodal dataset and uses the resulting per-sample interaction terms to gate a captioning step during supervised fine-tuning (SFT).
 
@@ -36,7 +36,7 @@ runs on CPU but is much faster on GPU.
 ```
 # 1) Clone and enter the repo
 git clone https://github.com/yurielryan/Multimodal-Interaction-Tuning.git
-cd MIT
+cd Multimodal-Interaction-Tuning
 
 # 2) Create and activate the environment
 conda create -n MIT python=3.10 -y
@@ -129,7 +129,7 @@ MIT/
         utils_features.py            # SigLIP2 loader, PCA, stratified split helpers
         download_images.py           # idempotent HatefulMemes image downloader
         interaction_transfers/       # SHIPPED .pt files for the Quick Start
-        per_tau/                     # SHIPPED .pt files for tau_ablations.py
+        per_tau/                     # generated on demand by tau_ablations.py (not shipped)
         README.md                    # schema + provenance for everything in here
     Experiments/                     # standalone analyses on top of the estimators
         interaction_transfer.py      # Quick-Start headline experiment
@@ -332,6 +332,15 @@ For the schema of the precomputed feature `.pt` files shipped under
 `Features/`, see [`Features/README.md`](Features/README.md).
 
 
+## License
+
+This repository is released under the [MIT License](LICENSE). It adapts code
+from the [LSMI Estimator](https://github.com/GeWu-Lab/LSMI_Estimator) (MIT)
+and the [KNIFE entropy estimator](https://github.com/g-pichler/knife)
+(BSD 3-Clause); both upstream licenses are retained in `LICENSE` and the
+file-level attributions in `Estimator/`.
+
+
 ## Acknowledgements
 
 This work builds directly on:
@@ -342,17 +351,39 @@ This work builds directly on:
   <https://github.com/GeWu-Lab/LSMI_Estimator>
 - **KNIFE** (the entropy estimator within the LSMI estimator) —
   <https://github.com/g-pichler/knife>
-- **SmolVLM** - <https://github.com/huggingface/smollm/tree/main/vision>
+- **SmolVLM** — <https://github.com/huggingface/smollm/tree/main/vision>
+
+The downstream hallucination / robustness evaluation in the paper is run on
+top of two existing benchmarks:
+
+- **Adaptation-method robustness benchmark** (Chen et al., NeurIPS 2023) —
+  Chen, S., Gu, J., Han, Z., Ma, Y., Torr, P., and Tresp, V.
+  *Benchmarking Robustness of Adaptation Methods on Pre-trained
+  Vision-Language Models.* Advances in Neural Information Processing
+  Systems, vol. 36, pp. 51758–51777, 2023.
+- **HallusionBench** (Guan et al., CVPR 2024) —
+  Guan, T. et al. *HallusionBench: An Advanced Diagnostic Suite for
+  Entangled Language Hallucination and Visual Illusion in Large
+  Vision-Language Models.* Proceedings of the IEEE/CVF Conference on
+  Computer Vision and Pattern Recognition, 2024, pp. 14375–14385.
+  <https://openaccess.thecvf.com/content/CVPR2024/html/Guan_HallusionBench_An_Advanced_Diagnostic_Suite_for_Entangled_Language_Hallucination_and_CVPR_2024_paper.html>
 
 If you do use this work, please do cite them as well! 🙇🏻
 
 ## Citation
 
 ```
-@misc{mit_tba,
-    title  = {TBA},
-    author = {TBA},
-    year   = {TBA},
-    note   = {TBA}
+@inproceedings{ryan2026selfcaptioning,
+    title     = {Self-Captioning Multimodal Interaction Tuning: Amplifying
+                 Exploitable Redundancies for Robust Vision Language Models},
+    author    = {Ryan, Yuriel and Ip, Hei Man and Kuek, Adriel and Liang,
+                 Paul Pu and Lee, Roy Ka-Wei},
+    booktitle = {Proceedings of the 43rd International Conference on Machine
+                 Learning (ICML)},
+    year      = {2026},
+    eprint    = {2605.08145},
+    archivePrefix = {arXiv},
+    primaryClass  = {cs.CV},
+    url       = {https://arxiv.org/abs/2605.08145}
 }
 ```

@@ -26,7 +26,7 @@ The repository covers three things you can do, each independently runnable:
 
 **Note**: The might be some slight differences in the values as that depends on how your trained estimators converged. That said, you should expect the same general trends in Table 1 of the paper (ablation of interaction transfers).
 
-*I have tried my best to ensure reproducibility in this work. Do reach out to me (corresponding author) if there are any issues in the setup / data.* 🙇🏻
+*I have tried my best to ensure reproducibility in this work. Do reach out to me (the corresponding author) if there are any issues in the setup / data.* 🙇🏻
 
 ## Setup
 
@@ -49,13 +49,8 @@ pip install -r requirements.txt
 
 ## Quick Start: reproduce the interaction-transfer table
 
-The headline experiment from the paper compares how four text-modality
-variants reshape the PID decomposition relative to a baseline, at three
-PCA embedding sizes (1536 = raw SigLIP2, 1024, 512). The required
-SigLIP2-encoded features are **shipped with the repo** under
-[`Features/interaction_transfers/`](Features/interaction_transfers/), so you
-can reproduce the table without downloading images, captioning, or
-running the full pipeline.
+This experiment from the paper compares how four text-modality variants reshape the PID decomposition relative to a baseline, at three
+PCA embedding sizes (1536 = raw SigLIP2, 1024, 512). The required SigLIP2-encoded features are **shipped with the repo** under [`Features/interaction_transfers/`](Features/interaction_transfers/), so you can reproduce the table without downloading images, captioning, or running the full pipeline.
 
 From the repo root:
 
@@ -83,8 +78,8 @@ The four variants are inferred from the filename:
 | Variant | Filename pattern | Text content |
 | --- | --- | --- |
 | Baseline | `hateful_memes_features_siglip2_{1536,pca1024,pca512}.pt` | Original meme text only |
-| Random Text | `hateful_memes_features_with_random_text_siglip2_{raw,pca1024,pca512}.pt` | Random English / gibberish strings (no label-relevant signal) |
-| SmolVLM 2B | `combined_smolvlm_features_siglip2_{raw,pca1024,pca512}.pt` | `original_text + " " + smolvlm_caption` |
+| Random Text | `hateful_memes_features_with_random_text_siglip2_{1536,pca1024,pca512}.pt` | gibberish strings (no label-relevant signal) |
+| SmolVLM 2B | `combined_smolvlm_features_siglip2_{1536,pca1024,pca512}.pt` | `original_text + " " + smolvlm_caption` |
 | Qwen2.5 32B | `hateful_memes_features_with_captions_siglip2_{1536,pca1024,pca512}.pt` | `original_text + " " + qwen_caption` |
 
 For the full schema of these `.pt` files see
@@ -201,10 +196,73 @@ images and text. The Quick Start does not.
 
 
 
+## License
 
-## Technical details
+This repository is released under the [MIT License](LICENSE). It adapts code
+from the [LSMI Estimator](https://github.com/GeWu-Lab/LSMI_Estimator) (MIT)
+and the [KNIFE entropy estimator](https://github.com/g-pichler/knife)
+(BSD 3-Clause); both upstream licenses are retained in `LICENSE` and the
+file-level attributions in `Estimator/`.
 
-### What gets trained
+
+## Acknowledgements
+
+This work builds directly on:
+
+- **The Cauldron** dataset (HatefulMemes subset) —
+  <https://huggingface.co/datasets/HuggingFaceM4/the_cauldron>
+- **LSMI Estimator** (multimodal interaction estimator) —
+  <https://github.com/GeWu-Lab/LSMI_Estimator>
+- **KNIFE** (the entropy estimator within the LSMI estimator) —
+  <https://github.com/g-pichler/knife>
+- **SmolVLM** — <https://github.com/huggingface/smollm/tree/main/vision>
+
+The downstream hallucination / robustness evaluation in the paper is run on top of two existing benchmarks:
+
+- **Adaptation-method robustness benchmark** (Chen et al., NeurIPS 2023) —
+  Chen, S., Gu, J., Han, Z., Ma, Y., Torr, P., and Tresp, V.
+  *Benchmarking Robustness of Adaptation Methods on Pre-trained
+  Vision-Language Models.* Advances in Neural Information Processing
+  Systems, vol. 36, pp. 51758–51777, 2023.
+- **HallusionBench** (Guan et al., CVPR 2024) —
+  Guan, T. et al. *HallusionBench: An Advanced Diagnostic Suite for
+  Entangled Language Hallucination and Visual Illusion in Large
+  Vision-Language Models.* Proceedings of the IEEE/CVF Conference on
+  Computer Vision and Pattern Recognition, 2024, pp. 14375–14385.
+  <https://openaccess.thecvf.com/content/CVPR2024/html/Guan_HallusionBench_An_Advanced_Diagnostic_Suite_for_Entangled_Language_Hallucination_and_CVPR_2024_paper.html>
+
+If you do use this work, please do cite them as well! 🙇🏻
+
+## Citation
+Note: To be updated when the officil PMLR issue is made public.
+
+```
+@inproceedings{ryan2026selfcaptioning,
+    title     = {Self-Captioning Multimodal Interaction Tuning: Amplifying
+                 Exploitable Redundancies for Robust Vision Language Models},
+    author    = {Ryan, Yuriel and Ip, Hei Man and Kuek, Adriel and Liang,
+                 Paul Pu and Lee, Roy Ka-Wei},
+    booktitle = {Proceedings of the 43rd International Conference on Machine
+                 Learning (ICML)},
+    year      = {2026},
+    eprint    = {2605.08145},
+    archivePrefix = {arXiv},
+    primaryClass  = {cs.CV},
+    url       = {https://arxiv.org/abs/2605.08145}
+}
+```
+
+
+
+
+
+---
+
+# Further details
+
+I had some leftover documentation and thought it might be useful for those who might be interested. Thus, I cleaned it up slightly and added additional details in this section in an attempt to be more "complete".
+
+## What gets trained
 
 #### Stage 1 — PID estimators (`Estimator/mi_estimator.py`)
 
@@ -330,60 +388,3 @@ returns modality feature tensors:
 
 For the schema of the precomputed feature `.pt` files shipped under
 `Features/`, see [`Features/README.md`](Features/README.md).
-
-
-## License
-
-This repository is released under the [MIT License](LICENSE). It adapts code
-from the [LSMI Estimator](https://github.com/GeWu-Lab/LSMI_Estimator) (MIT)
-and the [KNIFE entropy estimator](https://github.com/g-pichler/knife)
-(BSD 3-Clause); both upstream licenses are retained in `LICENSE` and the
-file-level attributions in `Estimator/`.
-
-
-## Acknowledgements
-
-This work builds directly on:
-
-- **The Cauldron** dataset (HatefulMemes subset) —
-  <https://huggingface.co/datasets/HuggingFaceM4/the_cauldron>
-- **LSMI Estimator** (multimodal interaction estimator) —
-  <https://github.com/GeWu-Lab/LSMI_Estimator>
-- **KNIFE** (the entropy estimator within the LSMI estimator) —
-  <https://github.com/g-pichler/knife>
-- **SmolVLM** — <https://github.com/huggingface/smollm/tree/main/vision>
-
-The downstream hallucination / robustness evaluation in the paper is run on
-top of two existing benchmarks:
-
-- **Adaptation-method robustness benchmark** (Chen et al., NeurIPS 2023) —
-  Chen, S., Gu, J., Han, Z., Ma, Y., Torr, P., and Tresp, V.
-  *Benchmarking Robustness of Adaptation Methods on Pre-trained
-  Vision-Language Models.* Advances in Neural Information Processing
-  Systems, vol. 36, pp. 51758–51777, 2023.
-- **HallusionBench** (Guan et al., CVPR 2024) —
-  Guan, T. et al. *HallusionBench: An Advanced Diagnostic Suite for
-  Entangled Language Hallucination and Visual Illusion in Large
-  Vision-Language Models.* Proceedings of the IEEE/CVF Conference on
-  Computer Vision and Pattern Recognition, 2024, pp. 14375–14385.
-  <https://openaccess.thecvf.com/content/CVPR2024/html/Guan_HallusionBench_An_Advanced_Diagnostic_Suite_for_Entangled_Language_Hallucination_and_CVPR_2024_paper.html>
-
-If you do use this work, please do cite them as well! 🙇🏻
-
-## Citation
-
-```
-@inproceedings{ryan2026selfcaptioning,
-    title     = {Self-Captioning Multimodal Interaction Tuning: Amplifying
-                 Exploitable Redundancies for Robust Vision Language Models},
-    author    = {Ryan, Yuriel and Ip, Hei Man and Kuek, Adriel and Liang,
-                 Paul Pu and Lee, Roy Ka-Wei},
-    booktitle = {Proceedings of the 43rd International Conference on Machine
-                 Learning (ICML)},
-    year      = {2026},
-    eprint    = {2605.08145},
-    archivePrefix = {arXiv},
-    primaryClass  = {cs.CV},
-    url       = {https://arxiv.org/abs/2605.08145}
-}
-```

@@ -4,6 +4,8 @@ This repository accompanies the ICML 2026 paper:
 
 [Self-Captioning Multimodal Interaction Tuning: Amplifying Exploitable Redundancies for Robust Vision Language Models](https://arxiv.org/abs/2605.08145)
 
+![](Poster.png)
+
 It trains a partial-information-decomposition (PID) estimator over a multimodal dataset and uses the resulting per-sample interaction terms to gate a captioning step during supervised fine-tuning (SFT).
 
 The four interaction terms are:
